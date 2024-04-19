@@ -21,10 +21,11 @@ class Game:
         random_index = random.randint(0, (wordList.length()) - 1)
         return wordList[random_index]
     
-    def checkWord(guess):
+    def checkWord(guess,self):
         numList = []
         for i in guess:
-            for 
+            for j in range(5):
+                if (self.secretWord[])
     
     def playGame(self):
         self.filePath = input("enter the filePath of the list of all words: ")
