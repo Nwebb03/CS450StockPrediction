@@ -47,3 +47,5 @@ class Game:
             
         
 
+class gamestate:
+    
