@@ -1,12 +1,19 @@
 class entropy
-  def getPossibleWords(wordList, char, i):
-    possibleWords = []
-    for string in wordList:
-        if entropy.isCharInString(char,string): # idk if this line is neccesary
-          if entropy.isCharInPos(char, i, string)
-            possibleWords.append(string)
-    return possibleWords
-    
+  def deleteGreyWords(wordList, greyList):
+    for word in worldList:
+      for letter in greyList:
+        if isCharInString(letter,word):
+          wordList.remove(word)
+  def keepYellowWords(wordList, yellowList):
+    for word in worldList:
+      for letter in greyList:
+        if not isCharInString(letter,word):
+          wordList.remove(word)
+  def keepGreenWords(wordList, greenList, indexList)
+    for word in WordList:
+        for letter, index in zip(greenList, indexList):
+          if not isCharInPos(letter, index, word)
+            wordList.remove(word)
   def isCharInString(char,string):
     return char in string
 
