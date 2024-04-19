@@ -1,11 +1,11 @@
 class listUpdater:
   def deleteGreyWords(wordList, greyList):
-    for word in worldList:
+    for word in wordList:
       for letter in greyList:
         if isCharInString(letter,word):
           wordList.remove(word)
   def keepYellowWords(wordList, yellowList):
-    for word in worldList:
+    for word in wordList:
       for letter in greyList:
         if not isCharInString(letter,word):
           wordList.remove(word)
