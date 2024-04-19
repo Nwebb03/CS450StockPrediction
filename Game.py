@@ -1,10 +1,14 @@
 import random
 
 class Game:
-    wordList = []
-    filePath = ""
-    secretWord = ""
-    wordFound = False
+    def __init__(self):
+        self.wordList = []
+        self.filePath = ""
+        self.secretWord = ""
+        self.wordFound = False
+        self.attempts = 0
+        self.userGuess = ""
+    
     
     def fillSet(filePath):
         wordSet = set()
@@ -17,13 +21,28 @@ class Game:
         random_index = random.randint(0, (wordList.length()) - 1)
         return wordList[random_index]
     
-    def playGame():
-        filePath = input("enter the filePath of the list of all words: ")
-        wordSet = Game.fillSet(filePath)
-        wordList = Game.setToList(wordSet)
-        secretWord = Game.setHiddenWord(wordList)
+    def checkWord(guess):
+        numList = []
+        for i in guess:
+            for 
+    
+    def playGame(self):
+        self.filePath = input("enter the filePath of the list of all words: ")
+        wordSet = Game.fillSet(self.filePath)
+        self.wordList = Game.setToList(wordSet)
+        self.secretWord = Game.setHiddenWord(self.wordList)
+        valGuess = False
 
-        while (wordFound == False) {
+        while (self.wordFound == False & self.attempts < 6) :
+            while (valGuess == False) :
+                self.userGuess = input("make a guess: ") 
+                if (len(self.userGuess) == 5):
+                    valGuess = True
             
-        }
+            
+
+
+
+            
+        
 
