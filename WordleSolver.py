@@ -23,8 +23,3 @@ class patternMatrix:
         SUM_TO_DELETE = 9
         self.listOfCombos = [combo for combo in self.listOfCombos if sum(combo) != SUM_TO_DELETE]
 
-def main():
-    pattern = patternMatrix()
-
-if __name__ == "__main__":
-    main()
