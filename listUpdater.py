@@ -1,4 +1,4 @@
-class entropy
+class listUpdater:
   def deleteGreyWords(wordList, greyList):
     for word in worldList:
       for letter in greyList:
@@ -9,7 +9,7 @@ class entropy
       for letter in greyList:
         if not isCharInString(letter,word):
           wordList.remove(word)
-  def keepGreenWords(wordList, greenList, indexList)
+  def keepGreenWords(wordList, greenList, indexList):
     for word in WordList:
         for letter, index in zip(greenList, indexList):
           if not isCharInPos(letter, index, word)
