@@ -23,9 +23,23 @@ class Game:
     
     def checkWord(guess,self):
         numList = []
-        for i in guess:
+        found = False
+        for i in range(5):
             for j in range(5):
-                if (self.secretWord[])
+                if (self.secretWord[j] == guess[i]):
+                    if (j == i):
+                        numList.append[2]
+                        found = True
+                        break
+                    else:
+                        numList.append[1]
+                        found = True
+                        break
+            if (found == False):
+                numList.append[0]
+        return numList
+
+
     
     def playGame(self):
         self.filePath = input("enter the filePath of the list of all words: ")
