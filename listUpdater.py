@@ -10,7 +10,7 @@ class listUpdater:
         if not isCharInString(letter,word):
           wordList.remove(word)
   def keepGreenWords(wordList, greenList, indexList):
-    for word in WordList:
+    for word in wordList:
         for letter, index in zip(greenList, indexList):
           if not isCharInPos(letter, index, word):
             wordList.remove(word)
