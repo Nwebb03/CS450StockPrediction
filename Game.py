@@ -8,12 +8,12 @@ class Game:
         self.wordFound = False
         self.attempts = 0
         self.userGuess = ""
+        self.wordList = []
     
-    
-    def fillSet(filePath):
-        wordSet = set()
-        return wordSet
-    
+    def fillwordList(self):
+        newWordList = []
+        self.wordList = newWordList
+
     def setToList(wordSet):
         return list(wordSet)
     
@@ -47,4 +47,11 @@ class Game:
         
 
 class gamestate:
+
+    def __init__(self) -> None:
+        self.guesses = []
+
+
     
+    def updateGuesses(self, word):
+        self.guesses.append(word)
