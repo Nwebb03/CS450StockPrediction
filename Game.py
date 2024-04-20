@@ -1,5 +1,6 @@
 import random
 import sys
+import csv
 
 class Game:
     def __init__(self):
@@ -8,16 +9,20 @@ class Game:
         self.wordList = []
         self.gamestate = gamestate()
     
-    def fillwordList(self):
-        newWordList = []
-        self.wordList = newWordList
+    def fillwordLists(self):
+        with open('valid_guesses.txt', 'r') as validGuessesFile:
+        # Read lines into a list and strip newline characters
+            self.gamestate.validGuesses = [line.strip() for line in validGuessesFile.readlines()]
+        
+        with open('valid_solutions.txt', 'r') as validSolutionsFile:
+            self.gamestate.validSolutions = [line.strip() for line in validSolutionsFile.readlines()]
 
     def setToList(wordSet):
         return list(wordSet)
     
-    def setHiddenWord(wordList):
-        random_index = random.randint(0, (wordList.length()) - 1)
-        return wordList[random_index]
+    def setHiddenWord(self):
+        random_index = random.randint(a=0, b=(len(self.gamestate.validSolutions) - 1))
+        return self.gamestate.validSolutions[random_index]
     
     def checkWord(self,guess):
         numList = []
@@ -47,8 +52,9 @@ class Game:
         ##self.wordList = Game.setToList(wordSet)
         ##self.secretWord = Game.setHiddenWord(self.wordList)
         valGuess = False
-        self.gamestate.secretWord = "yerba"
-        
+        self.fillwordLists()
+        self.gamestate.secretWord = self.setHiddenWord()
+        print(self.gamestate.secretWord)
         
         while (self.gamestate.wordFound == False) :
             valGuess = False
@@ -59,11 +65,14 @@ class Game:
             
             while (valGuess == False) :
                 self.userGuess = input("make a guess: ") 
+                if self.userGuess == "quit":
+                    exit()
                 print()
-                if (len(self.userGuess) == 5):
+                if (len(self.userGuess) == 5 and (self.userGuess in self.gamestate.validGuesses) 
+                    or (self.userGuess in self.gamestate.validSolutions)):
                     valGuess = True
                 else :
-                    print("enter a 5 letter word")
+                    print("word invalid, enter a 5 letter word in the valid guesses")
             
             tempList = self.checkWord(self.userGuess)
             print("Results for attempt #", self.gamestate.attempts, ", you have", 6 - self.gamestate.attempts, "attempts left")
@@ -107,10 +116,14 @@ class gamestate:
         self.wordFound = False
         self.attempts = 0
         self.userGuess = ""
+        self.validGuesses = []
+        self.validSolutions = []
+        self.invalidChars = []
 
     
     def updateGuesses(self,guess, numList):
         self.guesses.append(list(zip(guess, numList)))
+    
 
 game1 = Game()
 game1.playGame()
