@@ -85,35 +85,56 @@ class wordleSolver:
 
                 index += 1
             print(len(self.validWords))
-            self.delete_grey_words()
+            self.deleteGreyWords()
             print(len(self.validWords))
-            self.keep_yellow_words()
+            self.keepYellowWords()
             print(len(self.validWords))
-            self.keep_green_words()
+            self.keepGreenWords()
             print(len(self.validWords))
     
 
-    def delete_grey_words(self): # takes the list of currently valid words and removes all words with grey letters from it
+    def deleteGreyWords(self): # takes the list of currently valid words and removes all words with grey letters from it
+        wordsToRemove = []
         for word in self.validWords:
             for letter in self.greyLettersList:
                 if letter in word:
-                    self.validWords.remove(word)
+                    wordsToRemove.append(word)
                     break
                     
 
+        for word in wordsToRemove:
+            self.validWords.remove(word)
 
-
-    def keep_yellow_words(self): # take the list of currently valid words and removes all
+    def keepYellowWords(self): # take the list of currently valid words and removes all
+        wordsToRemove = []
         for word in self.validWords:
-            for letter in self.yellowLettersAndIndexes:
-                if letter[0] not in word:
-                    self.validWords.remove(word)
+            containsYellow = False
+            for letter,_ in self.yellowLettersAndIndexes:
+                if letter in word:
+                    containsYellow = True
                     break
+            if containsYellow == False:
+                wordsToRemove.append(word)
             
+        for word in self.validWords:
+            for letter, index in self.yellowLettersAndIndexes:
+                if (letter in word) and (word.find(letter) == index):
+                    wordsToRemove.append(word)
+                    break
+        
+
+        for word in wordsToRemove:
+            self.validWords.remove(word)
+        
+      
 
 
 
+<<<<<<< HEAD
     def keep_green_words2(self):
+=======
+    def keepGreenWords(self):
+>>>>>>> fd097977c685cfa856ad7a66813d200fe4c4dcdb
         for word in self.validWords:
             for letter, index in self.greenLettersAndIndexes:
                 if index < len(word) and word[index] != letter:
@@ -137,5 +158,8 @@ class wordleSolver:
         for word in self.validWords:
             for letter, index in self.greenLettersAndIndexes:
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> fd097977c685cfa856ad7a66813d200fe4c4dcdb
