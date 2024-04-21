@@ -36,7 +36,7 @@ class wordleSolver:
         self.calculatedEntropies = []
         self.patternMatrix = patternMatrix().listOfCombos
         self.gameState = gameState
-        self.validWords = gameState.validSolutions + gameState.validGuesses
+        self.validWords = gameState.validSolutions  ##+ gameState.validGuesses
         self.greyLettersList = []
         self.yellowLettersAndIndexes = []
         self.greenLettersAndIndexes = []
@@ -80,7 +80,7 @@ class wordleSolver:
                     self.greyLettersList.append(letter[0])
                 elif letter[1] == 1 and (letter[0],index) not in self.yellowLettersAndIndexes: 
                     self.yellowLettersAndIndexes.append((letter[0],index))
-                elif letter[1] == 0 and (letter[0],index) not in self.greenLettersAndIndexes:
+                elif letter[1] == 2 and (letter[0],index) not in self.greenLettersAndIndexes:
                     self.greenLettersAndIndexes.append((letter[0], index))
 
                 index += 1
@@ -94,19 +94,19 @@ class wordleSolver:
     
 
     def deleteGreyWords(self): # takes the list of currently valid words and removes all words with grey letters from it
-        wordsToRemove = []
+        greyWordsToRemove = []
         for word in self.validWords:
             for letter in self.greyLettersList:
                 if letter in word:
-                    wordsToRemove.append(word)
+                    greyWordsToRemove.append(word)
                     break
                     
 
-        for word in wordsToRemove:
+        for word in greyWordsToRemove:
             self.validWords.remove(word)
 
     def keepYellowWords(self): # take the list of currently valid words and removes all
-        wordsToRemove = []
+        yellowWordsToRemove = []
         for word in self.validWords:
             containsYellow = False
             for letter,_ in self.yellowLettersAndIndexes:
@@ -114,16 +114,16 @@ class wordleSolver:
                     containsYellow = True
                     break
             if containsYellow == False:
-                wordsToRemove.append(word)
+                yellowWordsToRemove.append(word)
             
         for word in self.validWords:
             for letter, index in self.yellowLettersAndIndexes:
                 if (letter in word) and (word.find(letter) == index):
-                    wordsToRemove.append(word)
+                    yellowWordsToRemove.append(word)
                     break
         
 
-        for word in wordsToRemove:
+        for word in yellowWordsToRemove:
             self.validWords.remove(word)
         
       
@@ -139,21 +139,24 @@ class wordleSolver:
                     break
     
     def keepGreenWords(self):
-        new_valid_words = []
-        for word in self.validWords:
-            valid = True
-            for letter, index in self.greenLettersAndIndexes:
-                if index >= len(word) or word[index] != letter:
-                    valid = False
-                    break
-            if valid:
-                new_valid_words.append(word)
-        self.validWords = new_valid_words
     
+        
+        greenWordsToRemove = []
+        for word in self.validWords:
+            for letter,_ in self.greenLettersAndIndexes:
+                if letter not in word:
+                    greenWordsToRemove.append(word)
+                    break
+                    
+
+        for word in greenWordsToRemove:
+            self.validWords.remove(word)
+    
+    '''
     def keepGreenWords2(self):
         wordsToDelete = []
         for word in self.validWords:
             for letter, index in self.greenLettersAndIndexes:
-
+    '''
 
 
