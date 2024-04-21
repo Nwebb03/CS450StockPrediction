@@ -26,7 +26,7 @@ class patternMatrix:
 
 
     def pruneMatrix(self) -> None:
-        #If the sum is nine, that means the pattern is invalid. (i.e. g,g,g,g,y)
+        #If the sum is 9, that means the pattern is invalid. (i.e. g,g,g,g,y)
         SUM_TO_DELETE = 9
         self.listOfCombos = [combo for combo in self.listOfCombos if sum(combo[:5]) != SUM_TO_DELETE]
 
@@ -36,7 +36,7 @@ class wordleSolver:
         self.calculatedEntropies = []
         self.patternMatrix = patternMatrix().listOfCombos
         self.gameState = gameState
-        self.validWords = gameState.validSolutions #+ gameState.validGuesses
+        self.validWords = gameState.validSolutions + gameState.validGuesses
         self.greyLettersList = []
         self.yellowLettersAndIndexes = []
         self.greenLettersAndIndexes = []
@@ -79,7 +79,7 @@ class wordleSolver:
                 if letter[1] == 0 and letter[0] not in self.greyLettersList:
                     self.greyLettersList.append(letter[0])
                 elif letter[1] == 1 and (letter[0],index) not in self.yellowLettersAndIndexes: 
-                    self.yellowLettersAndIndexes.append(letter[0],index)
+                    self.yellowLettersAndIndexes.append((letter[0],index))
                 elif letter[1] == 0 and (letter[0],index) not in self.greenLettersAndIndexes:
                     self.greenLettersAndIndexes.append((letter[0], index))
 
@@ -99,6 +99,7 @@ class wordleSolver:
                 if letter in word:
                     self.validWords.remove(word)
                     break
+                    
 
 
 
@@ -112,17 +113,29 @@ class wordleSolver:
 
 
 
-    def keep_green_words(self):
+    def keep_green_words2(self):
         for word in self.validWords:
             for letter, index in self.greenLettersAndIndexes:
                 if index < len(word) and word[index] != letter:
                     self.validWords.remove(word)
                     break
+    
+    def keep_green_words(self):
+        new_valid_words = []
+        for word in self.validWords:
+            valid = True
+            for letter, index in self.greenLettersAndIndexes:
+                if index >= len(word) or word[index] != letter:
+                    valid = False
+                    break
+            if valid:
+                new_valid_words.append(word)
+        self.validWords = new_valid_words
+    
+    def keepGreenWords(self):
+        wordsToDelete = []
+        for word in self.validWords:
+            for letter, index in self.greenLettersAndIndexes:
 
 
-    def is_char_in_string(char, string):
-        return char in string
 
-
-    def is_char_in_pos(char, i, string):
-        return i < len(string) and string[i] == char
