@@ -40,6 +40,8 @@ class game:
             wordleSolverEnable = True
         else:
             wordleSolverEnable = False
+
+            
         while (self.gameState.wordFound == False) :
             valGuess = False
             if (self.gameState.attempts > 6):
@@ -65,15 +67,23 @@ class game:
                 if self.userGuess == "quit":
                     exit()
                 print()
-                if (len(self.userGuess) == 5 and (self.userGuess in self.gameState.validGuesses) 
+
+
+                if ((len(self.userGuess) == 5 and (self.userGuess in self.gameState.validGuesses))
                     or (self.userGuess in self.gameState.validSolutions)):
                     valGuess = True
                 else :
                     print("Word invalid, enter a 5 letter word in the valid guesses")
             
+
+
             tempList = self.gameState.checkWord(self.gameState.secretWord,self.userGuess)
             print(tempList)
             self.gameState.updateGuesses( guess=self.userGuess, numList=tempList)
+
+
+
+
             if wordleSolverEnable:
                 print(list(zip(self.userGuess, tempList)))
                 wordleBot.updateWordLists(list(zip(self.userGuess, tempList)))
@@ -98,11 +108,11 @@ class game:
         print("Secret word is: {}".format(self.gameState.secretWord))
 
         guess = "dream"
-        self.checkWord(guess)
+        self.checkWord(guess)\
         print(game1.gameState.guesses)
         self.checkWord("chart")
         print(game1.gameState.guesses)
-        self.checkWord("ranch")
+        self.checkWord("ranch")\
         print(game1.gameState.guesses)
         '''
 
