@@ -130,18 +130,15 @@ class wordleSolver:
 
 
 
-<<<<<<< HEAD
-    def keep_green_words2(self):
-=======
-    def keepGreenWords(self):
->>>>>>> fd097977c685cfa856ad7a66813d200fe4c4dcdb
+    
+    def keepGreenWords1(self):
         for word in self.validWords:
             for letter, index in self.greenLettersAndIndexes:
                 if index < len(word) and word[index] != letter:
                     self.validWords.remove(word)
                     break
     
-    def keep_green_words(self):
+    def keepGreenWords(self):
         new_valid_words = []
         for word in self.validWords:
             valid = True
@@ -153,13 +150,10 @@ class wordleSolver:
                 new_valid_words.append(word)
         self.validWords = new_valid_words
     
-    def keepGreenWords(self):
+    def keepGreenWords2(self):
         wordsToDelete = []
         for word in self.validWords:
             for letter, index in self.greenLettersAndIndexes:
 
-<<<<<<< HEAD
 
 
-=======
->>>>>>> fd097977c685cfa856ad7a66813d200fe4c4dcdb
