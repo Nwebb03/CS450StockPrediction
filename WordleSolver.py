@@ -79,50 +79,60 @@ class wordleSolver:
                 if letter[1] == 0 and letter[0] not in self.greyLettersList:
                     self.greyLettersList.append(letter[0])
                 elif letter[1] == 1 and (letter[0],index) not in self.yellowLettersAndIndexes: 
-                    self.yellowLettersAndIndexes.append(letter[0],index)
+                    self.yellowLettersAndIndexes.append((letter[0],index))
                 elif letter[1] == 0 and (letter[0],index) not in self.greenLettersAndIndexes:
                     self.greenLettersAndIndexes.append((letter[0], index))
 
                 index += 1
             print(len(self.validWords))
-            self.delete_grey_words()
+            self.deleteGreyWords()
             print(len(self.validWords))
-            self.keep_yellow_words()
+            self.keepYellowWords()
             print(len(self.validWords))
-            self.keep_green_words()
+            self.keepGreenWords()
             print(len(self.validWords))
     
 
-    def delete_grey_words(self): # takes the list of currently valid words and removes all words with grey letters from it
+    def deleteGreyWords(self): # takes the list of currently valid words and removes all words with grey letters from it
+        wordsToRemove = []
         for word in self.validWords:
             for letter in self.greyLettersList:
                 if letter in word:
-                    self.validWords.remove(word)
+                    wordsToRemove.append(word)
                     break
 
+        for word in wordsToRemove:
+            self.validWords.remove(word)
 
-
-    def keep_yellow_words(self): # take the list of currently valid words and removes all
+    def keepYellowWords(self): # take the list of currently valid words and removes all
+        wordsToRemove = []
         for word in self.validWords:
-            for letter in self.yellowLettersAndIndexes:
-                if letter[0] not in word:
-                    self.validWords.remove(word)
+            containsYellow = False
+            for letter,_ in self.yellowLettersAndIndexes:
+                if letter in word:
+                    containsYellow = True
                     break
+            if containsYellow == False:
+                wordsToRemove.append(word)
             
+        for word in self.validWords:
+            for letter, index in self.yellowLettersAndIndexes:
+                if (letter in word) and (word.find(letter) == index):
+                    wordsToRemove.append(word)
+                    break
+        
+
+        for word in wordsToRemove:
+            self.validWords.remove(word)
+        
+      
 
 
 
-    def keep_green_words(self):
+    def keepGreenWords(self):
         for word in self.validWords:
             for letter, index in self.greenLettersAndIndexes:
                 if index < len(word) and word[index] != letter:
                     self.validWords.remove(word)
                     break
 
-
-    def is_char_in_string(char, string):
-        return char in string
-
-
-    def is_char_in_pos(char, i, string):
-        return i < len(string) and string[i] == char
