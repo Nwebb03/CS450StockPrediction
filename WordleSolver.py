@@ -116,7 +116,8 @@ class wordleSolver:
                     
 
         for word in greyWordsToRemove:
-            self.validWords.remove(word)
+            if (word in self.validWords):
+                self.validWords.remove(word)
 
     def keepYellowWords(self): # take the list of currently valid words and removes all
         yellowWordsToRemove = []
@@ -132,7 +133,8 @@ class wordleSolver:
             
         for word in self.validWords:
             for letter, index in self.yellowLettersAndIndexes:
-                if ((letter in word) and (word.find(letter) == index)):
+                indecesOfLetter = [i for i, j in enumerate(word) if j == letter]
+                if ((letter in word) and (index in indecesOfLetter)):
                     yellowWordsToRemove.append(word)
                     break
         
@@ -167,13 +169,15 @@ class wordleSolver:
               
         for word in self.validWords:
             for letter, index in self.greenLettersAndIndexes:
-                if ((letter in word) and (word.find(letter) != index)):
+                indecesOfLetter = [i for i, j in enumerate(word) if j == letter]     
+                if ((letter in word) and (index not in indecesOfLetter)):
                     greenWordsToRemove.append(word)
                     break
 
         
         for word in greenWordsToRemove:
-            self.validWords.remove(word)
+            if (word in self.validWords):
+                self.validWords.remove(word)
     
     '''
     def keepGreenWords2(self):
