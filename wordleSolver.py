@@ -60,7 +60,18 @@ class wordleSolver:
         
         return expectedEntropy
 
-
+    def countOccurances(self,letter):
+        count = 0
+        for i in self.greyLettersList:
+            if letter == i:
+                count += 1
+        for j,k in self.greenLettersAndIndexes:
+            if letter == j:
+                count +=1
+        for l,m in self.yellowLettersAndIndexes:
+            if letter == l:
+                count +=1
+        return count
     def calculateTopNExpectedEntropies(self,n):
         calculatedEntropies = []
         i = 0
@@ -96,6 +107,7 @@ class wordleSolver:
                 
                 
                 elif ((letter[1] == 0) and (letter[0] in [x[0] for x in self.greenLettersAndIndexes] )):
+                    
                     self.deleteGreyDupes(letter)
 
                     
@@ -118,7 +130,7 @@ class wordleSolver:
         print(self.greyLettersList)
         for word in self.validWords:
             for letter in self.greyLettersList:
-                if letter in word:
+                if (letter in word) and (letter not in [x[0] for x in self.greenLettersAndIndexes]):
                     greyWordsToRemove.append(word)
                     break
                     
@@ -130,11 +142,20 @@ class wordleSolver:
         print("deleting a dupe: ")
         print(dupe[0])
         greyDupesToRemove =[]
-        for word in self.validWords:
-            if (word.count(dupe[0])) > 1:
-                print("made it into removing the dupe")
-                print(word)
-                greyDupesToRemove.append(word)
+        if self.countOccurances(dupe[0]) > 2:
+            for word in self.validWords:
+                if (word.count(dupe[0])) > 2:
+                    if (dupe[0] not in [x[0] for x in self.greenLettersAndIndexes] and dupe[0] not in [y[0] for y in self.yellowLettersAndIndexes]):
+                        print("made it into removing the dupe")
+                        print(word)
+                        greyDupesToRemove.append(word)
+        else:
+            for word in self.validWords:
+                if (word.count(dupe[0])) > 1:
+                    if (dupe[0] not in [x[0] for x in self.greenLettersAndIndexes] and dupe[0] not in [y[0] for y in self.yellowLettersAndIndexes]):
+                        print("made it into removing the dupe")
+                        print(word)
+                        greyDupesToRemove.append(word)
                 
         for i in greyDupesToRemove:
             self.validWords.remove(i)

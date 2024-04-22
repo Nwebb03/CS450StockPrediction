@@ -29,6 +29,7 @@ class game:
         valGuess = False
         self.fillWordLists()
         self.gameState.secretWord = self.setHiddenWord()
+        ##self.gameState.secretWord = "aback"
         print(self.gameState.secretWord)
         
         print("Welcome to wordle, would you like to use the AI?")
@@ -122,18 +123,8 @@ class game:
             else :
                 self.gameState.attempts += 1
         return (self.gameState.attempts, self.gameState.guesses, self.gameState.secretWord)
-        '''
-        print("Secret word is: {}".format(self.gameState.secretWord))
 
-        guess = "dream"
-        self.checkWord(guess)\
-        print(game1.gameState.guesses)
-        self.checkWord("chart")
-        print(game1.gameState.guesses)
-        self.checkWord("ranch")\
-        print(game1.gameState.guesses)
-        '''
-
+        
 
 
 
@@ -148,6 +139,9 @@ gameResultsList = []
 letter_freq = {}
 
 # Play the game 10 times and collect results
+##game1 = game()
+##game1.playGame(autoEnable =True)
+
 for i in range(1000):
     game1 = game()
     gameResults = game1.playGame(autoEnable=True)
@@ -161,6 +155,7 @@ for i in range(1000):
     # Add the number of attempts for this game to resultsSum
     resultsSum += gameResults[0]
 
+
 for i, gameResults in enumerate(gameResultsList):
     print(f"Game {i + 1}: guessed ", end="")
     for guess in gameResults[1][-1]:
@@ -168,6 +163,7 @@ for i, gameResults in enumerate(gameResultsList):
     print(" in", gameResults[0], "attempts")
 
 # Print average number of attempts
+
 print("Average number of attempts:", resultsSum / 1000)
 
 import string
@@ -196,3 +192,5 @@ plt.xlabel('Number of Guesses')
 plt.ylabel('Frequency')
 plt.title('Histogram of Number of Guesses')
 plt.show()
+
+
