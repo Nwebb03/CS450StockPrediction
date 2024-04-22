@@ -23,15 +23,17 @@ class game:
 
 
     
-    def playGame(self):
+    def playGame(self, autoEnable):
         valGuess = False
         self.fillWordLists()
         self.gameState.secretWord = self.setHiddenWord()
         print(self.gameState.secretWord)
-        self.gameState.secretWord = "manic"
         
         print("Welcome to wordle, would you like to use the AI?")
-        wordleSolverEnableInput = input("Y for yes, N for no: ").lower()
+        if autoEnable:
+            wordleSolverEnableInput = 'y'
+        else:
+            wordleSolverEnableInput = input("Y for yes, N for no: ").lower()
         
         while wordleSolverEnableInput not in ["y","n"]:
             wordleSolverEnableInput = input("Invalid input input Y for yes or N for no").lower()
@@ -45,10 +47,10 @@ class game:
             
         while (self.gameState.wordFound == False) :
             valGuess = False
-            if (self.gameState.attempts > 6):
+            if (self.gameState.attempts >= 6):
                 print("you failed the word was: ")
                 print(self.gameState.secretWord)
-                sys.exit()
+                return (self.gameState.attempts, self.gameState.guesses)
             
             while (valGuess == False):
                 if self.gameState.attempts == 1:
@@ -58,14 +60,25 @@ class game:
                            topEntropies = [line.strip() for line in topEntropies.readlines()]
                         for entropyWord in topEntropies:
                             print(entropyWord)
-                    self.userGuess = input("Make a guess: ").lower()
+                        if autoEnable:
+                            print("hello")
+                            self.userGuess = topEntropies[0][2:7:1]
+                            print(self.userGuess)
+                        else:
+                            self.userGuess = input("Make a guess: ").lower()
+                        
                 else:
                     if wordleSolverEnable:
                         print("Here are the top 10 best guesses")
                         topEntropies = wordleBot.calculateTopNExpectedEntropies(10)
                         for entropyWord in topEntropies:
                             print(entropyWord)
-                    self.userGuess = input("Make another guess: ").lower()
+                        if autoEnable:
+                            print("hello")
+                            self.userGuess = topEntropies[0][0]
+                            print(self.userGuess)
+                        else:
+                            self.userGuess = input("Make another guess: ").lower()
                 if self.userGuess == "quit":
                     exit()
                 print()
@@ -106,6 +119,7 @@ class game:
 
             else :
                 self.gameState.attempts += 1
+        return (self.gameState.attempts, self.gameState.guesses, self.gameState.secretWord)
         '''
         print("Secret word is: {}".format(self.gameState.secretWord))
 
@@ -127,7 +141,22 @@ class game:
 
     
 
+resultsSum = 0
+gameResultsList = []
+for i in range(10):
+    game1 = game()
+    gameResults = game1.playGame(autoEnable=True)
+    print(gameResults)
+    gameResultsList.append(gameResults)
 
-game1 = game()
-game1.playGame()
+for i in range(10):
+    print(gameResultsList[i][0])
+    resultsSum += gameResultsList[i][0]
+
+print("Average: ")
+print(resultsSum/10)
+
+print(gameResultsList[5][2])
+    
+
 
