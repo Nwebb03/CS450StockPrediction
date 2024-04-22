@@ -80,7 +80,7 @@ class wordleSolver:
                     self.greenLettersAndIndexes.append((letter[0], index))
                     print("appended to greenList: ")
                     print(letter[0])
-                elif letter[1] == 1 and (letter[0],index) not in self.yellowLettersAndIndexes:
+                elif letter[1] == 1 and (letter[0],index):
                     self.yellowLettersAndIndexes.append((letter[0],index))
                     print("appended to yellow List: ")
                     print(letter[0])
@@ -88,11 +88,19 @@ class wordleSolver:
                 
                 ##elif ((letter[1] == 0) and (letter[0] not in self.greyLettersList) and (letter[0] not in [t[0] for t in self.yellowLettersAndIndexes]) and (letter[0] not in [x[0] for x in self.greenLettersAndIndexes]):
                 elif ((letter[1] == 0) and (letter[0] not in self.greyLettersList) and (letter[0] not in [t[0] for t in self.yellowLettersAndIndexes]) and (letter[0] not in [x[0] for x in self.greenLettersAndIndexes])):
-
+                    
                     self.greyLettersList.append(letter[0])
                     print("appended to grey List: ")
                     print(letter[0])
+
                 
+                
+                elif ((letter[1] == 0) and (letter[0] in [x[0] for x in self.greenLettersAndIndexes] )):
+                    self.deleteGreyDupes(letter)
+
+                    
+
+
 
                 index += 1
             print(len(self.validWords))
@@ -118,7 +126,21 @@ class wordleSolver:
         for word in greyWordsToRemove:
             if (word in self.validWords):
                 self.validWords.remove(word)
-
+    def deleteGreyDupes(self,dupe):
+        print("deleting a dupe: ")
+        print(dupe[0])
+        greyDupesToRemove =[]
+        for word in self.validWords:
+            if (word.count(dupe[0])) > 1:
+                print("made it into removing the dupe")
+                print(word)
+                greyDupesToRemove.append(word)
+                
+        for i in greyDupesToRemove:
+            self.validWords.remove(i)
+                
+        
+        
     def keepYellowWords(self): # take the list of currently valid words and removes all
         yellowWordsToRemove = []
         print("yellow letters and indeces:")

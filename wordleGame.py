@@ -28,6 +28,7 @@ class game:
         self.fillWordLists()
         self.gameState.secretWord = self.setHiddenWord()
         print(self.gameState.secretWord)
+        self.gameState.secretWord = "manic"
         
         print("Welcome to wordle, would you like to use the AI?")
         wordleSolverEnableInput = input("Y for yes, N for no: ").lower()
