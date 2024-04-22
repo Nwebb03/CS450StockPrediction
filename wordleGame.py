@@ -2,6 +2,8 @@ import random
 import sys
 import gameState
 import wordleSolver
+import matplotlib.pyplot as plt
+
 class game:
     def __init__(self):
         self.gameState = gameState.gameState()
@@ -143,20 +145,54 @@ class game:
 
 resultsSum = 0
 gameResultsList = []
-for i in range(10):
+letter_freq = {}
+
+# Play the game 10 times and collect results
+for i in range(1000):
     game1 = game()
     gameResults = game1.playGame(autoEnable=True)
-    print(gameResults)
     gameResultsList.append(gameResults)
 
-for i in range(10):
-    print(gameResultsList[i][0])
-    resultsSum += gameResultsList[i][0]
+    # Calculate letter frequencies for each game
+    for guess in gameResults[1]:  # gameResults[1] contains guesses
+        for letter in guess[0]:  # guess[0] contains the guessed word
+            letter_freq[letter] = letter_freq.get(letter, 0) + 1
 
-print("Average: ")
-print(resultsSum/10)
+    # Add the number of attempts for this game to resultsSum
+    resultsSum += gameResults[0]
 
-print(gameResultsList[5][2])
-    
+for i, gameResults in enumerate(gameResultsList):
+    print(f"Game {i + 1}: guessed ", end="")
+    for guess in gameResults[1][-1]:
+        print(guess[0], end="")
+    print(" in", gameResults[0], "attempts")
 
+# Print average number of attempts
+print("Average number of attempts:", resultsSum / 1000)
 
+import string
+
+# Filter letter frequency to include only alphabetic characters
+filtered_letter_freq = {str(key): value for key, value in letter_freq.items() if isinstance(key, str) and key.isalpha()}
+
+# Sort letter frequencies alphabetically
+sorted_filtered_letter_freq = sorted(filtered_letter_freq.items())
+
+# Convert keys and values to lists of strings
+keys = [char for char, _ in sorted_filtered_letter_freq]
+vals = [freq for _, freq in sorted_filtered_letter_freq]
+
+plt.bar(keys, vals)
+plt.xlabel('Letters')
+plt.ylabel('Frequency')
+plt.title('Letter Frequency in Guesses')
+plt.show()
+
+num_guesses = [gameResults[0] for gameResults in gameResultsList]
+
+# Plot histogram
+plt.hist(num_guesses, bins=range(min(num_guesses), max(num_guesses) + 1), edgecolor='black')
+plt.xlabel('Number of Guesses')
+plt.ylabel('Frequency')
+plt.title('Histogram of Number of Guesses')
+plt.show()
