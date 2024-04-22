@@ -36,7 +36,7 @@ class wordleSolver:
         self.calculatedEntropies = []
         self.patternMatrix = patternMatrix().listOfCombos
         self.gameState = gameState
-        self.validWords = gameState.validSolutions  ##+ gameState.validGuesses
+        self.validWords = gameState.validSolutions  + gameState.validGuesses
         self.greyLettersList = []
         self.yellowLettersAndIndexes = []
         self.greenLettersAndIndexes = []

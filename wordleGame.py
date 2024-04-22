@@ -53,7 +53,8 @@ class game:
                 if self.gameState.attempts == 1:
                     if wordleSolverEnable:
                         print("Here are the top 10 best guesses")
-                        topEntropies = wordleBot.calculateTopNExpectedEntropies(10)
+                        with open('wordsAndEntropies.txt', 'r') as topEntropies:
+                           topEntropies = [line.strip() for line in topEntropies.readlines()]
                         for entropyWord in topEntropies:
                             print(entropyWord)
                     self.userGuess = input("Make a guess: ").lower()
