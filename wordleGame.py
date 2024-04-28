@@ -62,7 +62,6 @@ class game:
         valGuess = False
         self.fillWordLists()  # Fill word lists
         self.gameState.secretWord = self.setHiddenWord()  # set secret word
-        #print(self.gameState.secretWord)
         
         print("Welcome to wordle, would you like to use the AI?")
         if autoEnable:
@@ -161,8 +160,6 @@ gameResultsList = []
 letter_freq = {}
 
 # Play the game x times and collect results
-##game1 = game()
-##game1.playGame(autoEnable =True)
 
 for i in range(1):
     game1 = game()
