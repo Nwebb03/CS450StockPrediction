@@ -20,6 +20,19 @@ You will then be prompted to choose whether or not to enable the Wordle Solver A
 
 To exit the game at any time use: *Ctrl C*.
 
+### Results
+
+Results of a guess will come in this form: *[('t', 2), ('a', 1), ('r', 0), ('e', 1), ('s', 2)]*
+
+These results break up every letter and assign it a 0, 1, or 2. 
+- 0 means the letter is grey and not present anywhere in the secret word.
+- 1 means the letter is yellow and is present in the word but not in that position.
+- 2 means the letter is correct and in the correct position.
+
+## Dependencies
+
+This project is built using Python programming language and relies on the matplotlib library for visualization.
+
 ## Contents:
 
 - wordleGame.py - Manages the Wordle game, including initializing game instances, filling word lists, setting hidden words, and playing the game.
@@ -81,3 +94,7 @@ Methods:
 - updateGuesses: Updates list of guesses with latest guess and feedback.
 - checkWord2: Checks if guessed word is secret word and generates feedback.
 - checkWord: checks for matched indices and then for partial matches.
+
+## Sources
+https://www.youtube.com/watch?v=v68zYyaEmEA
+https://medium.com/codex/building-a-wordle-solver-with-python-77e3c2388d63
