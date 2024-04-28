@@ -4,11 +4,20 @@ import gameState
 import wordleSolver
 import matplotlib.pyplot as plt
 
+"""
+Manages the Wordle game, allowing the player to interact with the game, make guesses, and optionally use the AI for assistance.
+"""
 class game:
     def __init__(self):
+        """
+        Initializes a game instance with a gameState object.
+        """
         self.gameState = gameState.gameState()
     
     def fillWordLists(self):
+        """
+        Fill the validGuesses and validSolutions lists from external files.
+        """
         with open('valid_guesses.txt', 'r') as validGuessesFile:
         # Read lines into a list and strip newline characters
             self.gameState.validGuesses = [line.strip() for line in validGuessesFile.readlines()]
@@ -17,40 +26,64 @@ class game:
             self.gameState.validSolutions = [line.strip() for line in validSolutionsFile.readlines()]
 
     def setToList(wordSet):
+        """
+        Convert a word set to a list.
+
+        Args:
+            wordSet: Set of words
+
+        Returns:
+            List containing the words from the set
+        """
         return list(wordSet)
     
     def setHiddenWord(self):
+        """
+        Randomly select secret word from validSolutions list
+
+        Returns:
+            Secret word
+        """
         random_index = random.randint(a=0, b=(len(self.gameState.validSolutions) - 1))
         return self.gameState.validSolutions[random_index]
 
 
     
     def playGame(self, autoEnable):
+        """
+        Play the Wordle game.
+
+        Args:
+            autoEnable: Boolean indicating whether AI mode is enabled.
+
+        Returns:
+            Tuple containing the number of attempts, guesses, and the secret word.
+        """
         valGuess = False
-        self.fillWordLists()
-        self.gameState.secretWord = self.setHiddenWord()
-        ##self.gameState.secretWord = "aback"
-        print(self.gameState.secretWord)
+        self.fillWordLists()  # Fill word lists
+        self.gameState.secretWord = self.setHiddenWord()  # set secret word
+        #print(self.gameState.secretWord)
         
         print("Welcome to wordle, would you like to use the AI?")
         if autoEnable:
-            wordleSolverEnableInput = 'y'
+            wordleSolverEnableInput = 'y'  # Auto enable AI
         else:
             wordleSolverEnableInput = input("Y for yes, N for no: ").lower()
         
+        # Validate user input for starting game
         while wordleSolverEnableInput not in ["y","n"]:
-            wordleSolverEnableInput = input("Invalid input input Y for yes or N for no").lower()
+            wordleSolverEnableInput = input("Invalid input: input Y for yes or N for no: ").lower()
         
         if wordleSolverEnableInput == "y":
-            wordleBot = wordleSolver.wordleSolver(gameState= self.gameState)
+            wordleBot = wordleSolver.wordleSolver(gameState= self.gameState)    # Create a wordleSolver instance
             wordleSolverEnable = True
         else:
             wordleSolverEnable = False
 
-            
+        # Play while secret word has not been found
         while (self.gameState.wordFound == False) :
             valGuess = False
-            if (self.gameState.attempts >= 6):
+            if (self.gameState.attempts >= 6):  # If 6 attempts used, end game and reveal word
                 print("you failed the word was: ")
                 print(self.gameState.secretWord)
                 return (self.gameState.attempts, self.gameState.guesses)
@@ -58,13 +91,12 @@ class game:
             while (valGuess == False):
                 if self.gameState.attempts == 1:
                     if wordleSolverEnable:
-                        print("Here are the top 10 best guesses")
+                        print("Here are the best next guesses")   # Recommend best guesses based on potential entropy
                         with open('wordsAndEntropies.txt', 'r') as topEntropies:
                            topEntropies = [line.strip() for line in topEntropies.readlines()]
                         for entropyWord in topEntropies:
                             print(entropyWord)
                         if autoEnable:
-                            print("hello")
                             self.userGuess = topEntropies[0][2:7:1]
                             print(self.userGuess)
                         else:
@@ -72,12 +104,11 @@ class game:
                         
                 else:
                     if wordleSolverEnable:
-                        print("Here are the top 10 best guesses")
+                        print("Here are the best next guesses")   # Recommend best guesses based on potential entropy
                         topEntropies = wordleBot.calculateTopNExpectedEntropies(10)
                         for entropyWord in topEntropies:
                             print(entropyWord)
                         if autoEnable:
-                            print("hello")
                             self.userGuess = topEntropies[0][0]
                             print(self.userGuess)
                         else:
@@ -86,7 +117,7 @@ class game:
                     exit()
                 print()
 
-
+                # Validate user guess to have 5 letters
                 if ((len(self.userGuess) == 5 and (self.userGuess in self.gameState.validGuesses))
                     or (self.userGuess in self.gameState.validSolutions)):
                     valGuess = True
@@ -94,29 +125,28 @@ class game:
                     print("Word invalid, enter a 5 letter word in the valid guesses")
             
 
-
             tempList = self.gameState.checkWord(self.gameState.secretWord,self.userGuess)
             print(tempList)
             self.gameState.updateGuesses( guess=self.userGuess, numList=tempList)
 
-
-
-
+            # Update word lists if AI is enabled
             if wordleSolverEnable:
                 print(list(zip(self.userGuess, tempList)))
                 wordleBot.updateWordLists(list(zip(self.userGuess, tempList)))
             print("Results for attempt #", self.gameState.attempts, ", you have", 6 - self.gameState.attempts, "attempts left")
             print()
-            if (self.gameState.attempts == 0):
-                print("Resulting colors: (0 is grey, 1 is yellow and 2 is green) : ")
+
+            if (self.gameState.attempts == 1):
+                print("Resulting colors: (0 is grey, 1 is yellow and 2 is green) : ")   # explain rules after 1st guess so user can read feedback
                 print()
             for guess in self.gameState.guesses:
                 print(guess)
                 print()
             print()
+
             if all(color == 2 for color in tempList):
                 self.gameState.wordFound = True
-                print("You guessed it the secret word was: ")
+                print("You guessed it the secret word was: ")   # Win statement
                 print()
                 print(self.gameState.secretWord)
 
@@ -124,27 +154,19 @@ class game:
                 self.gameState.attempts += 1
         return (self.gameState.attempts, self.gameState.guesses, self.gameState.secretWord)
 
-        
-
-
-
-            
-       
-
-
     
 
 resultsSum = 0
 gameResultsList = []
 letter_freq = {}
 
-# Play the game 10 times and collect results
+# Play the game x times and collect results
 ##game1 = game()
 ##game1.playGame(autoEnable =True)
 
-for i in range(1000):
+for i in range(1):
     game1 = game()
-    gameResults = game1.playGame(autoEnable=True)
+    gameResults = game1.playGame(autoEnable=False)
     gameResultsList.append(gameResults)
 
     # Calculate letter frequencies for each game
@@ -192,5 +214,3 @@ plt.xlabel('Number of Guesses')
 plt.ylabel('Frequency')
 plt.title('Histogram of Number of Guesses')
 plt.show()
-
-
