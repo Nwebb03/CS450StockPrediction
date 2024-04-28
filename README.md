@@ -18,6 +18,8 @@ To play the Wordle game, execute: *python WordleGame.py*
 
 You will then be prompted to choose whether or not to enable the Wordle Solver AI. If you enable it, the top potentially best guesses will be provided and you will be prompted to make your first guess. This will continue until you guess the correct secret word or until you use all 6 guesses.
 
+To exit the game at any time use: *Ctrl C*.
+
 ## Contents:
 
 - wordleGame.py - Manages the Wordle game, including initializing game instances, filling word lists, setting hidden words, and playing the game.
