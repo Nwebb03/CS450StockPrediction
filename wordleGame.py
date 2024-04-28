@@ -121,7 +121,7 @@ class game:
                     or (self.userGuess in self.gameState.validSolutions)):
                     valGuess = True
                 else :
-                    print("Word invalid, enter a 5 letter word in the valid guesses")
+                    print("Invalid word, please enter a valid 5 letter word: ")
             
 
             tempList = self.gameState.checkWord(self.gameState.secretWord,self.userGuess)
