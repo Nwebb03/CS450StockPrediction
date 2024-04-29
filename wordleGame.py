@@ -197,7 +197,7 @@ resultsSum = 0
 gameResultsList = []
 letter_freq = {}
 autoEnable = False  # change to true if want to run games automatically
-numGames = 2    # number of games to be played in a row
+numGames = 1    # number of games to be played in a row
 
 # Play the game x times and collect results
 for i in range(numGames):
