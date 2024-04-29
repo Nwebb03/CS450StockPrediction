@@ -132,7 +132,7 @@ class wordleSolver:
         for word in self.validWords:
             calculatedEntropies.append((word, self.calculateExpectedEntropy(word)))
             i += 1
-            # Test code to visualize calculation progress
+            # TESTING - to visualize calculation progress
             #if i % 50 == 0:
                 #print(i)
         calculatedEntropies.sort(key= lambda x: x[1], reverse=True)
@@ -150,31 +150,35 @@ class wordleSolver:
             for letter in guessedWordWithColors:
                 if letter[1] == 2 and (letter[0],index) not in self.greenLettersAndIndexes:
                     self.greenLettersAndIndexes.append((letter[0], index))
-                    print("appended to greenList: ")
-                    print(letter[0])
+                    # TESTING PURPOSES
+                    #print("appended to greenList: ")
+                    #print(letter[0])
                 elif letter[1] == 1 and (letter[0],index):
                     self.yellowLettersAndIndexes.append((letter[0],index))
-                    print("appended to yellow List: ")
-                    print(letter[0])
+                    # TESTING PURPOSES
+                    #print("appended to yellow List: ")
+                    #print(letter[0])
 
                 elif ((letter[1] == 0) and (letter[0] not in self.greyLettersList) and (letter[0] not in [t[0] for t in self.yellowLettersAndIndexes]) and (letter[0] not in [x[0] for x in self.greenLettersAndIndexes])):
                     
                     self.greyLettersList.append(letter[0])
-                    print("appended to grey List: ")
-                    print(letter[0])
+                    # TESTING PURPOSES
+                    #print("appended to grey List: ")
+                    #print(letter[0])
                             
                 elif ((letter[1] == 0) and (letter[0] in [x[0] for x in self.greenLettersAndIndexes] )):
                     
                     self.deleteGreyDupes(letter)
 
                 index += 1
-            print(len(self.validWords))
+            # # TESTING PURPOSES - visualize if validWords is being updated
+            #print(len(self.validWords))
             self.keepGreenWords()
-            print(len(self.validWords))
+            #print(len(self.validWords))
             self.keepYellowWords()
-            print(len(self.validWords))
+            #print(len(self.validWords))
             self.deleteGreyWords()
-            print(len(self.validWords))
+            #print(len(self.validWords))
 
 
     def deleteGreyWords(self): 
@@ -182,7 +186,7 @@ class wordleSolver:
         Removes any words containing grey letters
         """
         greyWordsToRemove = [] # List of grey words
-        print("grey letters and indeces:")
+        print("Grey letters and indices:")
         print(self.greyLettersList)
         for word in self.validWords:
             for letter in self.greyLettersList:
@@ -229,7 +233,7 @@ class wordleSolver:
         Removes all words with yellow letter in guessed position
         """
         yellowWordsToRemove = []
-        print("yellow letters and indeces:")
+        print("Yellow letters and indices:")
         # Check for words not containing green letter
         print(self.yellowLettersAndIndexes)
         for word in self.validWords:
@@ -257,7 +261,7 @@ class wordleSolver:
         Removes words where green letters are not in guessed positions
         """  
         greenWordsToRemove = []
-        print("green letters and indeces")
+        print("Green letters and indices")
         print(self.greenLettersAndIndexes)
 
         # Check for words not containing green letters
