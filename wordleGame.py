@@ -147,9 +147,11 @@ class game:
 
             if all(color == 2 for color in tempList):
                 self.gameState.wordFound = True
-                print("You guessed it the secret word was: ")   # Win statement
+                print("You guessed it!")
                 print()
+                print("The secret word was: ")# Win statement
                 print(self.gameState.secretWord)
+                print()
 
 
             else :
@@ -176,14 +178,16 @@ def displayGraphs():
     plt.title('Letter Frequency in Guesses')
     plt.show()
 
-    num_guesses = [gameResults[0] for gameResults in gameResultsList]
+    if(numGames > 1):
+        # plot for number of guesses distribution
+        num_guesses = [gameResults[0] for gameResults in gameResultsList]
 
-    # Plot histogram
-    plt.hist(num_guesses, bins=range(min(num_guesses), max(num_guesses) + 1), edgecolor='black')
-    plt.xlabel('Number of Guesses')
-    plt.ylabel('Frequency')
-    plt.title('Histogram of Number of Guesses')
-    plt.show()
+        # Plot histogram
+        plt.hist(num_guesses, bins=range(min(num_guesses), max(num_guesses) + 1), edgecolor='black')
+        plt.xlabel('Number of Guesses')
+        plt.ylabel('Frequency')
+        plt.title('Histogram of Number of Guesses')
+        plt.show()
 
 
 """
@@ -193,9 +197,10 @@ resultsSum = 0
 gameResultsList = []
 letter_freq = {}
 autoEnable = False  # change to true if want to run games automatically
+numGames = 2    # number of games to be played in a row
 
 # Play the game x times and collect results
-for i in range(1):
+for i in range(numGames):
     game1 = game()
     gameResults = game1.playGame(autoEnable)
     gameResultsList.append(gameResults)
@@ -215,13 +220,13 @@ for i, gameResults in enumerate(gameResultsList):
         print(guess[0], end="")
     print(" in", gameResults[0], "attempts")
 
-# Print average number of attempts
-print("Average number of attempts:", resultsSum / 1000)
-
 #Prompt user if they want to see graphical data; display graphs if auto
-if (autoEnable):
-    displayGraphs()
-else:
-    decision = input("Do you want to see the graphs of the letter frequency in guesses and the number of guesses? (Y/N): ").lower()
-    if decision == 'y':
+if len(gameResultsList) == numGames:
+    # Print average number of attempts
+    print("Average number of attempts:", resultsSum / numGames)
+    if (autoEnable):
         displayGraphs()
+    else:
+        decision = input("Do you want to see the graphs of the letter frequency in guesses and the variance in how many guesses it took to solve (only if multiple games)? (Y/N): ").lower()
+        if decision == 'y':
+            displayGraphs()
