@@ -33,6 +33,8 @@ These results break up every letter and assign it a 0, 1, or 2.
 
 This project is built using Python programming language and relies on the matplotlib library for visualization.
 
+- matplotlib usage is commented out and was used to generate histograms to illustrate the average number of guesses and the letter usage distribution for testing purposes. It is not necessary for the game.
+
 ## Contents:
 
 - wordleGame.py - Manages the Wordle game, including initializing game instances, filling word lists, setting hidden words, and playing the game.
