@@ -2,6 +2,7 @@ import random
 import sys
 import gameState
 import wordleSolver
+import string
 import matplotlib.pyplot as plt
 
 """
@@ -62,8 +63,9 @@ class game:
         valGuess = False
         self.fillWordLists()  # Fill word lists
         self.gameState.secretWord = self.setHiddenWord()  # set secret word
+        #print(self.gameState.secretWord) - TESTING PURPOSES
         
-        print("Welcome to wordle, would you like to use the AI?")
+        print("Welcome to wordle, would you like to use the AI Wordle Solver?")
         if autoEnable:
             wordleSolverEnableInput = 'y'  # Auto enable AI
         else:
@@ -71,7 +73,7 @@ class game:
         
         # Validate user input for starting game
         while wordleSolverEnableInput not in ["y","n"]:
-            wordleSolverEnableInput = input("Invalid input: input Y for yes or N for no: ").lower()
+            wordleSolverEnableInput = input("Invalid input, type 'Y' for yes or 'N' for no: ").lower()
         
         if wordleSolverEnableInput == "y":
             wordleBot = wordleSolver.wordleSolver(gameState= self.gameState)    # Create a wordleSolver instance
@@ -83,14 +85,14 @@ class game:
         while (self.gameState.wordFound == False) :
             valGuess = False
             if (self.gameState.attempts >= 6):  # If 6 attempts used, end game and reveal word
-                print("you failed the word was: ")
+                print("You ran out of turns! The word was: ")
                 print(self.gameState.secretWord)
                 return (self.gameState.attempts, self.gameState.guesses)
             
             while (valGuess == False):
                 if self.gameState.attempts == 1:
                     if wordleSolverEnable:
-                        print("Here are the best next guesses")   # Recommend best guesses based on potential entropy
+                        print("Here are the best guesses: ")   # Recommend best guesses based on potential entropy
                         with open('wordsAndEntropies.txt', 'r') as topEntropies:
                            topEntropies = [line.strip() for line in topEntropies.readlines()]
                         for entropyWord in topEntropies:
@@ -103,7 +105,7 @@ class game:
                         
                 else:
                     if wordleSolverEnable:
-                        print("Here are the best next guesses")   # Recommend best guesses based on potential entropy
+                        print("Here are the best next guesses: ")   # Recommend best guesses based on potential entropy
                         topEntropies = wordleBot.calculateTopNExpectedEntropies(10)
                         for entropyWord in topEntropies:
                             print(entropyWord)
@@ -121,16 +123,16 @@ class game:
                     or (self.userGuess in self.gameState.validSolutions)):
                     valGuess = True
                 else :
-                    print("Invalid word, please enter a valid 5 letter word: ")
+                    print("Invalid word, please enter a valid 5 letter word:")
             
 
             tempList = self.gameState.checkWord(self.gameState.secretWord,self.userGuess)
-            print(tempList)
+            #print(tempList) - TESTING PURPOSES
             self.gameState.updateGuesses( guess=self.userGuess, numList=tempList)
 
             # Update word lists if AI is enabled
             if wordleSolverEnable:
-                print(list(zip(self.userGuess, tempList)))
+                #print(list(zip(self.userGuess, tempList))) - TESTING PURPOSES
                 wordleBot.updateWordLists(list(zip(self.userGuess, tempList)))
             print("Results for attempt #", self.gameState.attempts, ", you have", 6 - self.gameState.attempts, "attempts left")
             print()
@@ -149,21 +151,51 @@ class game:
                 print()
                 print(self.gameState.secretWord)
 
+
             else :
                 self.gameState.attempts += 1
         return (self.gameState.attempts, self.gameState.guesses, self.gameState.secretWord)
-
     
 
+def displayGraphs():
+    #Filter letter frequency to include only alphabetic characters
+    filtered_letter_freq = {str(key): value for key, value in letter_freq.items() if isinstance(key, str) and key.isalpha()}
+
+    # Sort letter frequencies alphabetically
+    sorted_filtered_letter_freq = sorted(filtered_letter_freq.items())
+
+    # Convert keys and values to lists of strings
+    keys = [char for char, _ in sorted_filtered_letter_freq]
+    vals = [freq for _, freq in sorted_filtered_letter_freq]
+
+    plt.bar(keys, vals)
+    plt.xlabel('Letters')
+    plt.ylabel('Frequency')
+    plt.title('Letter Frequency in Guesses')
+    plt.show()
+
+    num_guesses = [gameResults[0] for gameResults in gameResultsList]
+
+    # Plot histogram
+    plt.hist(num_guesses, bins=range(min(num_guesses), max(num_guesses) + 1), edgecolor='black')
+    plt.xlabel('Number of Guesses')
+    plt.ylabel('Frequency')
+    plt.title('Histogram of Number of Guesses')
+    plt.show()
+
+
+"""
+Play the Wordle Game
+"""
 resultsSum = 0
 gameResultsList = []
 letter_freq = {}
+autoEnable = False  # change to true if want to run games automatically
 
 # Play the game x times and collect results
-
 for i in range(1):
     game1 = game()
-    gameResults = game1.playGame(autoEnable=False)
+    gameResults = game1.playGame(autoEnable)
     gameResultsList.append(gameResults)
 
     # Calculate letter frequencies for each game
@@ -182,34 +214,12 @@ for i, gameResults in enumerate(gameResultsList):
     print(" in", gameResults[0], "attempts")
 
 # Print average number of attempts
-
 print("Average number of attempts:", resultsSum / 1000)
 
-import string
-
-"""
-# Filter letter frequency to include only alphabetic characters
-filtered_letter_freq = {str(key): value for key, value in letter_freq.items() if isinstance(key, str) and key.isalpha()}
-
-# Sort letter frequencies alphabetically
-sorted_filtered_letter_freq = sorted(filtered_letter_freq.items())
-
-# Convert keys and values to lists of strings
-keys = [char for char, _ in sorted_filtered_letter_freq]
-vals = [freq for _, freq in sorted_filtered_letter_freq]
-
-plt.bar(keys, vals)
-plt.xlabel('Letters')
-plt.ylabel('Frequency')
-plt.title('Letter Frequency in Guesses')
-plt.show()
-
-num_guesses = [gameResults[0] for gameResults in gameResultsList]
-
-# Plot histogram
-plt.hist(num_guesses, bins=range(min(num_guesses), max(num_guesses) + 1), edgecolor='black')
-plt.xlabel('Number of Guesses')
-plt.ylabel('Frequency')
-plt.title('Histogram of Number of Guesses')
-plt.show()
-"""
+#Prompt user if they want to see graphical data; display graphs if auto
+if (autoEnable):
+    displayGraphs()
+else:
+    decision = input("Do you want to see the graphs of the letter frequency in guesses and the number of guesses? (Y/N): ").lower()
+    if decision == 'y':
+        displayGraphs()
