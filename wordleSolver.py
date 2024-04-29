@@ -132,6 +132,7 @@ class wordleSolver:
         for word in self.validWords:
             calculatedEntropies.append((word, self.calculateExpectedEntropy(word)))
             i += 1
+            # Test code to visualize calculation progress
             #if i % 50 == 0:
                 #print(i)
         calculatedEntropies.sort(key= lambda x: x[1], reverse=True)
