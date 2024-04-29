@@ -156,7 +156,9 @@ class game:
                 self.gameState.attempts += 1
         return (self.gameState.attempts, self.gameState.guesses, self.gameState.secretWord)
     
-
+"""
+Plots a graph of Letter frequencies in guesses and a graph of average number of guesses
+"""
 def displayGraphs():
     #Filter letter frequency to include only alphabetic characters
     filtered_letter_freq = {str(key): value for key, value in letter_freq.items() if isinstance(key, str) and key.isalpha()}
