@@ -18,7 +18,7 @@ To play the Wordle game, execute: *python WordleGame.py*
 
 You will then be prompted to choose whether or not to enable the Wordle Solver AI. If you enable it, the top potentially best guesses will be provided and you will be prompted to make your first guess. This will continue until you guess the correct secret word or until you use all 6 guesses.
 
-To exit the game at any time use: *Ctrl C*.
+To exit the game at any time type: *exit*.
 
 ### Results
 
@@ -29,11 +29,17 @@ These results break up every letter and assign it a 0, 1, or 2.
 - 1 means the letter is yellow and is present in the word but not in that position.
 - 2 means the letter is correct and in the correct position.
 
+At the end of the game, the user is prompted on whether or not they would like to view 2 graphs of the results. The first shows the average number of guesses (if multiple games were run), and the second depicts the letter distribution in guesses.
+
+### autoEnable
+
+Within the wordleGame, the variable *autoEnable* is set to False. If set to True the game will run automatically, choosing the top suggested guess each time. The graphs will be created at the end.
+
 ## Dependencies
 
 This project is built using Python programming language and relies on the matplotlib library for visualization.
 
-- matplotlib usage is commented out and was used to generate histograms to illustrate the average number of guesses and the letter usage distribution for testing purposes. It is not necessary for the game.
+- matplotlib is used to generate optional histograms to illustrate the average number of guesses and the letter usage distribution for testing purposes.
 
 ## Contents:
 
@@ -42,7 +48,7 @@ This project is built using Python programming language and relies on the matplo
 - gameState.py - Manages the state and logic of the Wordle game, including updating guesses, checking words, and initializing game state.
 - valid_guesses.txt - Contains a list of valid guess words.
 - valid_solutions.txt - Contains a list of all valid word solutions.
-- wordsAndEntropies.txt - Contains a list of 10 first guesses with the highest potential entropy.
+- wordsAndEntropies.txt - Contains a list of up to 10 of the best guesses with the highest potential entropy.
 
 ## Class Documentations:
 
@@ -57,7 +63,7 @@ Methods:
 - fillWordLists: Fills the validGuesses and validSolutions lists from external files.
 - setToList: Converts set of words to list of valid words.
 - setHiddenWord: Randomly selects a secret word from validSolutions list.
-- playGame: Plays the Wordle game, allowing the player to make guesses and optionally use the AI for assistance.
+- displayGraphs: Plots a graph of Letter frequencies in guesses and a graph of average number of guesses.
 
 ### wordleSolver.py
 
