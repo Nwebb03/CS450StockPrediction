@@ -187,6 +187,7 @@ print("Average number of attempts:", resultsSum / 1000)
 
 import string
 
+"""
 # Filter letter frequency to include only alphabetic characters
 filtered_letter_freq = {str(key): value for key, value in letter_freq.items() if isinstance(key, str) and key.isalpha()}
 
@@ -211,3 +212,4 @@ plt.xlabel('Number of Guesses')
 plt.ylabel('Frequency')
 plt.title('Histogram of Number of Guesses')
 plt.show()
+"""
