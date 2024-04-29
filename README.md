@@ -29,7 +29,7 @@ These results break up every letter and assign it a 0, 1, or 2.
 - 1 means the letter is yellow and is present in the word but not in that position.
 - 2 means the letter is correct and in the correct position.
 
-At the end of the game, the user is prompted on whether or not they would like to view 2 graphs of the results. The first shows the average number of guesses (if multiple games were run), and the second depicts the letter distribution in guesses.
+At the end of the game, the user is prompted on whether or not they would like to view a plot of the letter distribution in guesses. If multiple games were run it also outputs a histogram of the number of guesses it took each round.
 
 ### autoEnable
 
